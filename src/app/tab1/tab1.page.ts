@@ -1,6 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { BleClient, BleDevice } from '@capacitor-community/bluetooth-le';
-import { BehaviorSubject, from, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 const IMU_SERVICE = 'ff278bc5-3e44-4d81-9817-4c20a1efea68';
 const ACCEL_CHARACTERISTIC = 'ff278bc5-3e44-4d81-9817-4c20a1efea69';
@@ -31,6 +32,19 @@ export class Tab1Page {
     this.zGyro = '0.00';
 
     this.connected.subscribe(() => this.update());
+
+    Filesystem.writeFile({
+      path: 'imu/acc-data.csv',
+      data: '',
+      directory: Directory.Documents,
+      encoding: Encoding.UTF8,
+    });
+    Filesystem.writeFile({
+      path: 'imu/gyro-data.csv',
+      data: '',
+      directory: Directory.Documents,
+      encoding: Encoding.UTF8,
+    });
   }
 
   public async disconnect(): Promise<void> {
@@ -66,6 +80,12 @@ export class Tab1Page {
         (value) => {
           this.ngZone.run(() => {
             [this.xAcceleration, this.yAcceleration, this.zAcceleration] = this.bytesToString(value.buffer.slice(value.byteOffset)).split(',');
+            Filesystem.appendFile({
+              path: 'imu/acc-data.csv',
+              data: [new Date().getTime(), this.xAcceleration, this.yAcceleration, this.zAcceleration].join(',') + '\n',
+              directory: Directory.Documents,
+              encoding: Encoding.UTF8,
+            });
           })
         }
       )
@@ -76,6 +96,12 @@ export class Tab1Page {
         (value) => {
           this.ngZone.run(() => {
             [this.xGyro, this.yGyro, this.zGyro] = this.bytesToString(value.buffer.slice(value.byteOffset)).split(',');
+            Filesystem.appendFile({
+              path: 'imu/gyro-data.csv',
+              data: [new Date().getTime(), this.xGyro, this.yGyro, this.zGyro].join(',') + '\n',
+              directory: Directory.Documents,
+              encoding: Encoding.UTF8,
+            });
           })
         }
       )
