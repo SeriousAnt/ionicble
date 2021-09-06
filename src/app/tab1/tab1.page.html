@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      IMU
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,43 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">IMU</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-text color="secondary">
+          <h1>Acceleration</h1>
+        </ion-text>
+        <ion-row>
+          <ion-col>x: {{xAcceleration}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>y: {{yAcceleration}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>z: {{zAcceleration}}</ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col>
+        <ion-text color="secondary">
+          <h1>Gyro</h1>
+        </ion-text>
+        <ion-row>
+          <ion-col>x: {{xGyro}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>y: {{yGyro}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>z: {{zGyro}}</ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button *ngIf="!connected.value" name="button" (click)="connect()">Connect</ion-button>
+  <ion-button *ngIf="connected.value" name="button" (click)="disconnect()">Disconnect</ion-button>
 </ion-content>
