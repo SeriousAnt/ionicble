@@ -31,19 +31,11 @@ export class Tab1Page {
     this.yGyro = '0.00';
     this.zGyro = '0.00';
 
-    this.connected.subscribe(() => this.update());
-
-    Filesystem.writeFile({
-      path: 'imu/acc-data.csv',
-      data: '',
-      directory: Directory.Documents,
-      encoding: Encoding.UTF8,
-    });
-    Filesystem.writeFile({
-      path: 'imu/gyro-data.csv',
-      data: '',
-      directory: Directory.Documents,
-      encoding: Encoding.UTF8,
+    this.connected.subscribe(() => {
+      from(Filesystem.mkdir({
+        path: 'imu',
+        directory: Directory.Documents,
+      })).subscribe(() => this.update())
     });
   }
 
@@ -81,7 +73,7 @@ export class Tab1Page {
           this.ngZone.run(() => {
             [this.xAcceleration, this.yAcceleration, this.zAcceleration] = this.bytesToString(value.buffer.slice(value.byteOffset)).split(',');
             Filesystem.appendFile({
-              path: 'imu/acc-data.csv',
+              path: `imu/${new Date().getTime()}-acc-data.csv`,
               data: [new Date().getTime(), this.xAcceleration, this.yAcceleration, this.zAcceleration].join(',') + '\n',
               directory: Directory.Documents,
               encoding: Encoding.UTF8,
@@ -97,7 +89,7 @@ export class Tab1Page {
           this.ngZone.run(() => {
             [this.xGyro, this.yGyro, this.zGyro] = this.bytesToString(value.buffer.slice(value.byteOffset)).split(',');
             Filesystem.appendFile({
-              path: 'imu/gyro-data.csv',
+              path: `imu/${new Date().getTime()}-gyro-data.csv`,
               data: [new Date().getTime(), this.xGyro, this.yGyro, this.zGyro].join(',') + '\n',
               directory: Directory.Documents,
               encoding: Encoding.UTF8,
