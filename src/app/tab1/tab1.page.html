@@ -17,7 +17,7 @@
     <ion-row>
       <ion-col>
         <ion-text color="secondary">
-          <h1>Acceleration</h1>
+          <h2>Acceleration</h2>
         </ion-text>
         <ion-row>
           <ion-col>x: {{xAcceleration}}</ion-col>
@@ -32,7 +32,7 @@
 
       <ion-col>
         <ion-text color="secondary">
-          <h1>Gyro</h1>
+          <h2>Gyroscope</h2>
         </ion-text>
         <ion-row>
           <ion-col>x: {{xGyro}}</ion-col>
@@ -45,7 +45,12 @@
         </ion-row>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" *ngIf="!connected.value" name="button" (click)="connect()">Connect</ion-button>
+        <ion-button expand="block" *ngIf="connected.value" name="button" (click)="disconnect()">Disconnect</ion-button>
+      </ion-col>
+    </ion-row>
   </ion-grid>
-  <ion-button *ngIf="!connected.value" name="button" (click)="connect()">Connect</ion-button>
-  <ion-button *ngIf="connected.value" name="button" (click)="disconnect()">Disconnect</ion-button>
+
 </ion-content>
