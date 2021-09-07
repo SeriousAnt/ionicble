@@ -25,6 +25,7 @@ export class Tab1Page {
   public xAcceleration: string = '0.00';
   public yAcceleration: string = '0.00';
   public zAcceleration: string = '0.00';
+
   public xGyro: string = '0.00';
   public yGyro: string = '0.00';
   public zGyro: string = '0.00';
