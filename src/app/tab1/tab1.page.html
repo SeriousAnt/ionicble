@@ -17,7 +17,7 @@
     <ion-row>
       <ion-col>
         <ion-text color="secondary">
-          <h2>Test</h2>
+          <h2>Test Stats</h2>
         </ion-text>
       </ion-col>
     </ion-row>
@@ -25,16 +25,16 @@
     <ion-row>
       <ion-col>
         <ion-row>
-          <ion-col class="ion-self-align-start">Started: {{ testStartDate | date }}</ion-col>
-          <ion-col>Duration: {{ getDuration() === 0 ? '': getDuration() }}</ion-col>
+          <ion-col>Started: {{ testStartDate | date:'medium' }}</ion-col>
+          <ion-col>Duration: {{ getDuration() | date:'mm:ss' }}</ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
 
-    <ion-row>
+    <ion-row class="ion-margin-bottom">
       <ion-col>
         <ion-text color="secondary">
-          <h2>Acceleration</h2>
+          <h3>Acceleration</h3>
         </ion-text>
         <ion-row>
           <ion-col>x: {{xAcceleration}}</ion-col>
@@ -43,16 +43,16 @@
           <ion-col>y: {{yAcceleration}}</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>z: {{zAcceleration}}</ion-col>
+          <ion-col class="ion-margin-bottom">z: {{zAcceleration}}</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col># Measurements: {{ numberOfAccelMeasurements }}</ion-col>
+          <ion-col>Data Points: {{ numberOfAccelMeasurements }}</ion-col>
         </ion-row>
       </ion-col>
 
       <ion-col>
         <ion-text color="secondary">
-          <h2>Gyroscope</h2>
+          <h3>Gyroscope</h3>
         </ion-text>
         <ion-row>
           <ion-col>x: {{xGyro}}</ion-col>
@@ -63,8 +63,8 @@
         <ion-row class="ion-margin-bottom">
           <ion-col>z: {{zGyro}}</ion-col>
         </ion-row>
-        <ion-row class="ion-margin-bottom">
-          <ion-col># Measurements: {{ numberOfGyroMeasurements }}</ion-col>
+        <ion-row>
+          <ion-col>Data Points: {{ numberOfGyroMeasurements }}</ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
