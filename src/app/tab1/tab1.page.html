@@ -12,8 +12,24 @@
       <ion-title size="large">IMU</ion-title>
     </ion-toolbar>
   </ion-header>
-
   <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-text color="secondary">
+          <h2>Test</h2>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-row>
+          <ion-col class="ion-self-align-start">Started: {{ testStartDate | date }}</ion-col>
+          <ion-col>Duration: {{ getDuration() }}</ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
     <ion-row>
       <ion-col>
         <ion-text color="secondary">
@@ -27,6 +43,9 @@
         </ion-row>
         <ion-row>
           <ion-col>z: {{zAcceleration}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col># Measurements: {{ numberOfAccelMeasurements }}</ion-col>
         </ion-row>
       </ion-col>
 
@@ -43,12 +62,16 @@
         <ion-row>
           <ion-col>z: {{zGyro}}</ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col># Measurements: {{ numberOfGyroMeasurements }}</ion-col>
+        </ion-row>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <ion-button expand="block" *ngIf="!connected.value" name="button" (click)="connect()">Connect</ion-button>
-        <ion-button expand="block" *ngIf="connected.value" name="button" (click)="disconnect()">Disconnect</ion-button>
+        <ion-button expand="block" *ngIf="connected.value" name="button" (click)="disconnect()">Disconnect
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

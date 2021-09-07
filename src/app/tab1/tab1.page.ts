@@ -18,7 +18,9 @@ export class Tab1Page {
   private device: BleDevice;
 
   public connected = new BehaviorSubject<boolean>(false);
-  public showConnect = false;
+  public testStartDate: Date;
+  public numberOfGyroMeasurements = 0;
+  public numberOfAccelMeasurements = 0;
 
   public xAcceleration: string = '0.00';
   public yAcceleration: string = '0.00';
@@ -50,6 +52,7 @@ export class Tab1Page {
         this.device = d;
         from(BleClient.connect(this.device.deviceId)).subscribe(() => {
           this.connected.next(true);
+          this.testStartDate = new Date();
           console.log('connected to device', this.device.deviceId);
         });
       });
@@ -69,6 +72,7 @@ export class Tab1Page {
         (value) => {
           this.ngZone.run(() => {
             [this.xAcceleration, this.yAcceleration, this.zAcceleration] = this.bytesToString(value.buffer.slice(value.byteOffset)).split(',');
+            this.numberOfAccelMeasurements++;
             Filesystem.appendFile({
               path: `${Tab1Page.FOLDER_PATH}/${this.getFilePrefix()}acc${Tab1Page.FILE_PATH_SUFFIX}`,
               data: [new Date().getTime(), this.xAcceleration, this.yAcceleration, this.zAcceleration].join(',') + '\n',
@@ -85,6 +89,7 @@ export class Tab1Page {
         (value) => {
           this.ngZone.run(() => {
             [this.xGyro, this.yGyro, this.zGyro] = this.bytesToString(value.buffer.slice(value.byteOffset)).split(',');
+            this.numberOfGyroMeasurements++;
             Filesystem.appendFile({
               path: `${Tab1Page.FOLDER_PATH}/${this.getFilePrefix()}gyro${Tab1Page.FILE_PATH_SUFFIX}`,
               data: [new Date().getTime(), this.xGyro, this.yGyro, this.zGyro].join(',') + '\n',
@@ -100,6 +105,11 @@ export class Tab1Page {
   private getFilePrefix(): string {
     const date = new Date();
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDay() + 1}-`
+  }
+
+  public getDuration(): number {
+    if (!this.testStartDate) { return 0; }
+    return new Date().getTime() - this.testStartDate.getTime();
   }
 
 }
